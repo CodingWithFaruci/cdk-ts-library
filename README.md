@@ -21,7 +21,9 @@
 
 ## **Description:**
 
-    The cdk-ts-Library is an example project build with the AWS Cloud Development Kit (CDK) using TypeScript. The project contains a library api application using cloud native serverless components. The project also contains:
+    The cdk-ts-Library is an example project build with the AWS Cloud Development Kit (CDK) using TypeScript.
+    The project contains a library api application using cloud native serverless components. 
+    The project also contains:
     - Jest for unit testing
     - Postman for integration testing
     - ESLint for static code analysis
