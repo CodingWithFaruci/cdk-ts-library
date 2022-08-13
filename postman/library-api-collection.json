@@ -1,0 +1,1320 @@
+{
+    "info": {
+        "_postman_id": "cf0ee3bd-215a-463e-b17f-c6a2a5eff8b1",
+        "name": "AWS CDK TypeScript Library",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "22594134"
+    },
+    "item": [{
+            "name": "POST a single book",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Succesfull post for a single book', function () {\r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Added 1 book(s) to library');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");\r",
+                            "let key = pm.environment.get(\"X-API-Key\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                    "content-type": true
+                }
+            },
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "POST",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"books\": [\r\n        {\r\n            \"isbn\": \"1234567890\",\r\n            \"name\": \"isbnBody\",\r\n            \"authors\": [\r\n                \"book author\"\r\n            ],\r\n            \"languages\": [\r\n                \"french\"\r\n            ],\r\n            \"countries\": [\r\n                \"france\"\r\n            ],\r\n            \"numberOfPages\": 90,\r\n            \"releaseDate\": \"2012\"\r\n        }\r\n    ]\r\n}"
+                },
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/books",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "books"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "POST multiple books",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Succesfull post for multiple books', function () {\r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Added 2 book(s) to library');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");\r",
+                            "let key = pm.environment.get(\"X-API-Key\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                    "content-type": true
+                }
+            },
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "POST",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"books\": [\r\n        {\r\n            \"isbn\": \"2345678901\",\r\n            \"name\": \"isbnBody1\",\r\n            \"authors\": [\r\n                \"book1 author1\"\r\n            ],\r\n            \"languages\": [\r\n                \"french\"\r\n            ],\r\n            \"countries\": [\r\n                \"france\"\r\n            ],\r\n            \"numberOfPages\": 90,\r\n            \"releaseDate\": \"2012\"\r\n        },\r\n        {\r\n            \"isbn\": \"3456789012\",\r\n            \"name\": \"isbnBody2\",\r\n            \"authors\": [\r\n                \"book2 author2\"\r\n            ],\r\n            \"languages\": [\r\n                \"dutch\"\r\n            ],\r\n            \"countries\": [\r\n                \"the netherlands\"\r\n            ],\r\n            \"numberOfPages\": 100,\r\n            \"releaseDate\": \"2022\"\r\n        }\r\n    ]\r\n}"
+                },
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/books",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "books"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "POST fails with invalid request body",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Fail post with invalid request body', function () {\r",
+                            "    pm.response.to.have.status(400);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Invalid request body');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");\r",
+                            "let key = pm.environment.get(\"X-API-Key\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                    "content-type": true
+                }
+            },
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "POST",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"books\": [\r\n        {\r\n            \"isbn\": \"4567890123\",\r\n            \"name\": \"isbnBody4\",\r\n            \"authors\": [\r\n                \"book4 author4\"\r\n            ],\r\n            \"languages\": [\r\n                \"french\"\r\n            ],\r\n            \"countries\": [\r\n                \"france\"\r\n            ]\r\n        }\r\n    ]\r\n}"
+                },
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/books",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "books"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "POST fails with too many books",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Fail post for too many books', function () {\r",
+                            "    pm.response.to.have.status(400);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Invalid request body');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");\r",
+                            "let key = pm.environment.get(\"X-API-Key\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                    "content-type": true
+                }
+            },
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "POST",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "X-API-Key",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"books\": [\r\n        {\r\n            \"isbn\": \"1234567890\",\r\n            \"name\": \"isbnBody1\",\r\n            \"authors\": [\r\n                \"book1 author1\"\r\n            ],\r\n            \"languages\": [\r\n                \"french\"\r\n            ],\r\n            \"countries\": [\r\n                \"france\"\r\n            ],\r\n            \"numberOfPages\": 90,\r\n            \"releaseDate\": \"2012\"\r\n        },\r\n        {\r\n            \"isbn\": \"0123456789\",\r\n            \"name\": \"isbnBody2\",\r\n            \"authors\": [\r\n                \"book2 author2\"\r\n            ],\r\n            \"languages\": [\r\n                \"dutch\"\r\n            ],\r\n            \"countries\": [\r\n                \"the netherlands\"\r\n            ],\r\n            \"numberOfPages\": 100,\r\n            \"releaseDate\": \"2022\"\r\n        },\r\n        {\r\n            \"isbn\": \"1098765432\",\r\n            \"name\": \"isbnBody3\",\r\n            \"authors\": [\r\n                \"book3 author3\"\r\n            ],\r\n            \"languages\": [\r\n                \"dutch\"\r\n            ],\r\n            \"countries\": [\r\n                \"the netherlands\"\r\n            ],\r\n            \"numberOfPages\": 103,\r\n            \"releaseDate\": \"2000\"\r\n        },\r\n        {\r\n            \"isbn\": \"2109876543\",\r\n            \"name\": \"isbnBody4\",\r\n            \"authors\": [\r\n                \"book4 author4\"\r\n            ],\r\n            \"languages\": [\r\n                \"dutch\"\r\n            ],\r\n            \"countries\": [\r\n                \"the netherlands\"\r\n            ],\r\n            \"numberOfPages\": 104,\r\n            \"releaseDate\": \"2004\"\r\n        },\r\n        {\r\n            \"isbn\": \"3210987654\",\r\n            \"name\": \"isbnBody5\",\r\n            \"authors\": [\r\n                \"book5 author5\"\r\n            ],\r\n            \"languages\": [\r\n                \"dutch\"\r\n            ],\r\n            \"countries\": [\r\n                \"the netherlands\"\r\n            ],\r\n            \"numberOfPages\": 105,\r\n            \"releaseDate\": \"2005\"\r\n        },\r\n        {\r\n            \"isbn\": \"4321098765\",\r\n            \"name\": \"isbnBody6\",\r\n            \"authors\": [\r\n                \"book6 author6\"\r\n            ],\r\n            \"languages\": [\r\n                \"dutch\"\r\n            ],\r\n            \"countries\": [\r\n                \"the netherlands\"\r\n            ],\r\n            \"numberOfPages\": 106,\r\n            \"releaseDate\": \"2006\"\r\n        },\r\n        {\r\n            \"isbn\": \"5432109876\",\r\n            \"name\": \"isbnBody7\",\r\n            \"authors\": [\r\n                \"book7 author7\"\r\n            ],\r\n            \"languages\": [\r\n                \"dutch\"\r\n            ],\r\n            \"countries\": [\r\n                \"the netherlands\"\r\n            ],\r\n            \"numberOfPages\": 107,\r\n            \"releaseDate\": \"2007\"\r\n        },\r\n        {\r\n            \"isbn\": \"6543210987\",\r\n            \"name\": \"isbnBody8\",\r\n            \"authors\": [\r\n                \"book8 author8\"\r\n            ],\r\n            \"languages\": [\r\n                \"dutch\"\r\n            ],\r\n            \"countries\": [\r\n                \"the netherlands\"\r\n            ],\r\n            \"numberOfPages\": 108,\r\n            \"releaseDate\": \"2008\"\r\n        },\r\n        {\r\n            \"isbn\": \"7654321098\",\r\n            \"name\": \"isbnBody9\",\r\n            \"authors\": [\r\n                \"book9 author9\"\r\n            ],\r\n            \"languages\": [\r\n                \"dutch\"\r\n            ],\r\n            \"countries\": [\r\n                \"the netherlands\"\r\n            ],\r\n            \"numberOfPages\": 109,\r\n            \"releaseDate\": \"2009\"\r\n        },\r\n        {\r\n            \"isbn\": \"8765432190\",\r\n            \"name\": \"isbnBody10\",\r\n            \"authors\": [\r\n                \"book10 author10\"\r\n            ],\r\n            \"languages\": [\r\n                \"dutch\"\r\n            ],\r\n            \"countries\": [\r\n                \"the netherlands\"\r\n            ],\r\n            \"numberOfPages\": 110,\r\n            \"releaseDate\": \"2010\"\r\n        },\r\n        {\r\n            \"isbn\": \"9876543210\",\r\n            \"name\": \"isbnBody11\",\r\n            \"authors\": [\r\n                \"book11 author11\"\r\n            ],\r\n            \"languages\": [\r\n                \"dutch\"\r\n            ],\r\n            \"countries\": [\r\n                \"the netherlands\"\r\n            ],\r\n            \"numberOfPages\": 111,\r\n            \"releaseDate\": \"2011\"\r\n        }\r\n    ]\r\n}"
+                },
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/books",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "books"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "POST fails with missing api key",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Fail post with missing api key', function () {\r",
+                            "    pm.response.to.have.status(403);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Forbidden');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"books\": [\r\n        {\r\n            \"isbn\": \"1234567890\",\r\n            \"name\": \"isbnBody\",\r\n            \"authors\": [\r\n                \"book author\"\r\n            ],\r\n            \"languages\": [\r\n                \"french\"\r\n            ],\r\n            \"countries\": [\r\n                \"france\"\r\n            ],\r\n            \"numberOfPages\": 90,\r\n            \"releaseDate\": \"2012\"\r\n        }\r\n    ]\r\n}"
+                },
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/books",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "books"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "GET book with given isbn",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Succesfull get for book with given isbn', function () {\r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain(\"[{\\\"isbn\\\":\\\"1234567890\\\",\\\"name\\\":\\\"isbnbody\\\",\\\"authors\\\":[\\\"book author\\\"],\\\"languages\\\":[\\\"french\\\"],\\\"countries\\\":[\\\"france\\\"],\\\"numberofpages\\\":90,\\\"releasedate\\\":\\\"2012\\\"}]\");\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/book/1234567890",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "book",
+                        "1234567890"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "GET books with given offset",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Succesfull get for books with given offset', function () {\r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain(\"[{\\\"isbn\\\":\\\"1234567890\\\",\\\"name\\\":\\\"isbnbody\\\",\\\"authors\\\":[\\\"book author\\\"],\\\"languages\\\":[\\\"french\\\"],\\\"countries\\\":[\\\"france\\\"],\\\"numberofpages\\\":90,\\\"releasedate\\\":\\\"2012\\\"},{\\\"isbn\\\":\\\"2345678901\\\",\\\"name\\\":\\\"isbnbody1\\\",\\\"authors\\\":[\\\"book1 author1\\\"],\\\"languages\\\":[\\\"french\\\"],\\\"countries\\\":[\\\"france\\\"],\\\"numberofpages\\\":90,\\\"releasedate\\\":\\\"2012\\\"},{\\\"isbn\\\":\\\"3456789012\\\",\\\"name\\\":\\\"isbnbody2\\\",\\\"authors\\\":[\\\"book2 author2\\\"],\\\"languages\\\":[\\\"dutch\\\"],\\\"countries\\\":[\\\"the netherlands\\\"],\\\"numberofpages\\\":100,\\\"releasedate\\\":\\\"2022\\\"}]\");\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/books/0",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "books",
+                        "0"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "GET books with given filters and offset",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Succesfull get for books with given filter and offset', function () {\r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain(\"[{\\\"isbn\\\":\\\"1234567890\\\",\\\"name\\\":\\\"isbnbody\\\",\\\"authors\\\":[\\\"book author\\\"],\\\"languages\\\":[\\\"french\\\"],\\\"countries\\\":[\\\"france\\\"],\\\"numberofpages\\\":90,\\\"releasedate\\\":\\\"2012\\\"}]\");\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                    "content-type": true,
+                    "content-length": true
+                }
+            },
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "GET",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/books/0?name=isbnBody&authors=[\"book author\"]&languages=[\"french\"]&countries=[\"france\"]&numberOfPages=90&releaseDate=2012",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "books",
+                        "0"
+                    ],
+                    "query": [{
+                            "key": "name",
+                            "value": "isbnBody"
+                        },
+                        {
+                            "key": "authors",
+                            "value": "[\"book author\"]"
+                        },
+                        {
+                            "key": "languages",
+                            "value": "[\"french\"]"
+                        },
+                        {
+                            "key": "countries",
+                            "value": "[\"france\"]"
+                        },
+                        {
+                            "key": "numberOfPages",
+                            "value": "90"
+                        },
+                        {
+                            "key": "releaseDate",
+                            "value": "2012"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "GET fails with missing isbn",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Fail get with missing isbn', function () {\r",
+                            "    pm.response.to.have.status(403);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Missing Authentication Token');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/book/",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "book",
+                        ""
+                    ],
+                    "query": [{
+                        "key": "",
+                        "value": null,
+                        "disabled": true
+                    }]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "GET fails with missing offset",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Fail get with missing offset', function () {\r",
+                            "    pm.response.to.have.status(403);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Missing Authentication Token');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/books/",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "books",
+                        ""
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "GET fails with invalid filters",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Fail get with invalid filters', function () {\r",
+                            "    pm.response.to.have.status(400);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('No valid filters received');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                    "content-length": true,
+                    "content-type": true
+                }
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/books/0?test=\"testFilter\"",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "books",
+                        "0"
+                    ],
+                    "query": [{
+                        "key": "test",
+                        "value": "\"testFilter\""
+                    }]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "PATCH book with given isbn",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Succesfull patch for book with given isbn', function () {\r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Updated book with isbn: 1234567890 in library');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");\r",
+                            "let key = pm.environment.get(\"X-API-Key\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                    "content-type": true
+                }
+            },
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "PATCH",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"name\": \"isbnBody111\",\r\n    \"authors\": [\r\n        \"book author\"\r\n    ],\r\n    \"languages\": [\r\n        \"french\"\r\n    ],\r\n    \"countries\": [\r\n        \"france\"\r\n    ],\r\n    \"numberOfPages\": 90,\r\n    \"releaseDate\": \"2012\"\r\n}"
+                },
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/book/1234567890",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "book",
+                        "1234567890"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "PATCH fails with invalid request body",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Fail patch for book with invalid request body', function () {\r",
+                            "    pm.response.to.have.status(400);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");\r",
+                            "let key = pm.environment.get(\"X-API-Key\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                    "content-type": true
+                }
+            },
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "PATCH",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"name\": \"isbnBody777\",\r\n    \"authors\": [\r\n        \"book author\"\r\n    ],\r\n    \"languages\": [\r\n        \"french\"\r\n    ],\r\n    \"countries\": [\r\n        \"france\"\r\n    ]\r\n}"
+                },
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/book/1234567890",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "book",
+                        "1234567890"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "PATCH fails with missing isbn",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Fail patch for book with missing isbn', function () {\r",
+                            "    pm.response.to.have.status(403);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Missing Authentication Token');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");\r",
+                            "let key = pm.environment.get(\"X-API-Key\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "protocolProfileBehavior": {
+                "disabledSystemHeaders": {
+                    "content-type": true
+                }
+            },
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "PATCH",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"name\": \"isbnBody222\",\r\n    \"authors\": [\r\n        \"book author\"\r\n    ],\r\n    \"languages\": [\r\n        \"french\"\r\n    ],\r\n    \"countries\": [\r\n        \"france\"\r\n    ],\r\n    \"numberOfPages\": 90,\r\n    \"releaseDate\": \"2012\"\r\n}"
+                },
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/book/",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "book",
+                        ""
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "PATCH fails with missing api key",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Fail patch with missing api key', function () {\r",
+                            "    pm.response.to.have.status(403);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Forbidden');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "PATCH",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "X-API-Key",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"name\": \"isbnBody111\",\r\n    \"authors\": [\r\n        \"book author\"\r\n    ],\r\n    \"languages\": [\r\n        \"french\"\r\n    ],\r\n    \"countries\": [\r\n        \"france\"\r\n    ],\r\n    \"numberOfPages\": 90,\r\n    \"releaseDate\": \"2012\"\r\n}"
+                },
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/book/1234567890",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "book",
+                        "1234567890"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "DELETE book with given isbn",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Succesfull delete for book with given isbn', function () {\r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Deleted book with isbn: 1234567890 from library');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");\r",
+                            "let key = pm.environment.get(\"X-API-Key\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "DELETE",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/book/1234567890",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "book",
+                        "1234567890"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "DELETE fails with missing isbn",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Fail delete with missing isbn', function () {\r",
+                            "    pm.response.to.have.status(403);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Missing Authentication Token');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "DELETE",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "X-API-Key",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/book/",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "book",
+                        ""
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "DELETE fails with missing api key",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Fail delete with missing api key', function () {\r",
+                            "    pm.response.to.have.status(403);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Forbidden');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "DELETE",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "X-API-Key",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{}"
+                },
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/book/2345678901",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "book",
+                        "2345678901"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "DELETE cleanup 1",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Succesfull delete for book with given isbn', function () {\r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Deleted book with isbn: 2345678901 from library');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");\r",
+                            "let key = pm.environment.get(\"X-API-Key\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "DELETE",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/book/2345678901",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "book",
+                        "2345678901"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "DELETE cleanup 2",
+            "event": [{
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Succesfull delete for book with given isbn', function () {\r",
+                            "    pm.response.to.have.status(200);\r",
+                            "    const responseJson = pm.response.json();\r",
+                            "    pm.expect(responseJson.message).to.contain('Deleted book with isbn: 3456789012 from library');\r",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            "let endpoint = pm.environment.get(\"ENDPOINT\");\r",
+                            "let key = pm.environment.get(\"X-API-Key\");"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "auth": {
+                    "type": "apikey",
+                    "apikey": [{
+                            "key": "key",
+                            "value": "X-API-Key",
+                            "type": "string"
+                        },
+                        {
+                            "key": "value",
+                            "value": "{{X-API-Key}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "DELETE",
+                "header": [{
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    },
+                    {
+                        "key": "",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "url": {
+                    "raw": "{{ENDPOINT}}/v1/book/3456789012",
+                    "host": [
+                        "{{ENDPOINT}}"
+                    ],
+                    "path": [
+                        "v1",
+                        "book",
+                        "3456789012"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+name: Integration Tests
+
+on: workflow_dispatch
+
+concurrency:
+  group: pr-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Test Library API with Postman
+    environment: dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Current User
+        run: echo $GITHUB_ACTOR
+
+      - name: Check Out Code
+        uses: actions/checkout@v3.0.2
+
+      - name: Setup Node
+        uses: actions/setup-node@v3.3.0
+        with:
+          node-version: "16"
+
+      - name: Install newman
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+
+      - name: Make Directory for results
+        run: mkdir -p testResults
+
+      - name: Run POSTMAN collection
+        run: |
+          newman run ./postman/library-api-collection.json -e ./postman/library-api-environment.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/runreport1.html
+        env:
+          X-API-Key: ${{ secrets.X-API-Key }}
+          ENDPOINT: ${{ secrets.ENDPOINT }}
+
+      - name: Output the run Details
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: RunReports
+          path: testResults
