@@ -18,6 +18,7 @@
   * [IPost](#ipost)
   * [IPatch](#ipatch)
   * [IFilter](#ifilter)
+* [Useful commands](#useful-commands)
 
 ## **Description:**
 
@@ -75,9 +76,9 @@ CREATE TABLE library (
 |-|-|-|-|-|-|
 | getBook|`GET`|isbn: `string`|no|no|no|
 | getBooks|`GET`|offset: `number`|no|no|no|
-| getFilteredBooks|`GET`|offset: `number`|`IFilter`|no|no|
-| postBooks|`POST`|no|no|yes|`IPost`|
-| patchBook|`PATCH`|isbn: `string`|no|yes|`IPatch`|
+| getFilteredBooks|`GET`|offset: `number`|[IFilter](#ifilter)|no|no|
+| postBooks|`POST`|no|no|yes|[IPost](#ipost)|
+| patchBook|`PATCH`|isbn: `string`|no|yes|[IPatch](#ipatch)|
 | deleteBook|`DELETE`|isbn: `string`|no|yes|no|
 
 # **Infrastructure:**
