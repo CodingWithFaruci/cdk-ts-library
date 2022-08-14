@@ -83,7 +83,7 @@ CREATE TABLE library (
 
 # **Infrastructure:**
 
-![alt text](./diagram/cdk-ts-library-diagram.png)
+![alt text](./diagram/cdk-ts-library.png)
 
 ## **cdk-ts-library contains the following AWS components:**
 
